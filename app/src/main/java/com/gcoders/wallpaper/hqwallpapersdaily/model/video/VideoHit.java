@@ -1,11 +1,10 @@
 
 package com.gcoders.wallpaper.hqwallpapersdaily.model.video;
 
-import com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.video.Videos;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Hit {
+public class VideoHit {
 
     @SerializedName("picture_id")
     @Expose
@@ -61,7 +60,7 @@ public class Hit {
         this.pictureId = pictureId;
     }
 
-    public Hit withPictureId(String pictureId) {
+    public VideoHit withPictureId(String pictureId) {
         this.pictureId = pictureId;
         return this;
     }
@@ -74,7 +73,7 @@ public class Hit {
         this.videos = videos;
     }
 
-    public Hit withVideos(Videos videos) {
+    public VideoHit withVideos(Videos videos) {
         this.videos = videos;
         return this;
     }
@@ -87,7 +86,7 @@ public class Hit {
         this.tags = tags;
     }
 
-    public Hit withTags(String tags) {
+    public VideoHit withTags(String tags) {
         this.tags = tags;
         return this;
     }
@@ -100,7 +99,7 @@ public class Hit {
         this.downloads = downloads;
     }
 
-    public Hit withDownloads(Integer downloads) {
+    public VideoHit withDownloads(Integer downloads) {
         this.downloads = downloads;
         return this;
     }
@@ -113,7 +112,7 @@ public class Hit {
         this.likes = likes;
     }
 
-    public Hit withLikes(Integer likes) {
+    public VideoHit withLikes(Integer likes) {
         this.likes = likes;
         return this;
     }
@@ -126,7 +125,7 @@ public class Hit {
         this.favorites = favorites;
     }
 
-    public Hit withFavorites(Integer favorites) {
+    public VideoHit withFavorites(Integer favorites) {
         this.favorites = favorites;
         return this;
     }
@@ -139,7 +138,7 @@ public class Hit {
         this.duration = duration;
     }
 
-    public Hit withDuration(Integer duration) {
+    public VideoHit withDuration(Integer duration) {
         this.duration = duration;
         return this;
     }
@@ -152,7 +151,7 @@ public class Hit {
         this.id = id;
     }
 
-    public Hit withId(String id) {
+    public VideoHit withId(String id) {
         this.id = id;
         return this;
     }
@@ -165,7 +164,7 @@ public class Hit {
         this.userId = userId;
     }
 
-    public Hit withUserId(Integer userId) {
+    public VideoHit withUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
@@ -178,7 +177,7 @@ public class Hit {
         this.views = views;
     }
 
-    public Hit withViews(Integer views) {
+    public VideoHit withViews(Integer views) {
         this.views = views;
         return this;
     }
@@ -191,7 +190,7 @@ public class Hit {
         this.comments = comments;
     }
 
-    public Hit withComments(Integer comments) {
+    public VideoHit withComments(Integer comments) {
         this.comments = comments;
         return this;
     }
@@ -204,7 +203,7 @@ public class Hit {
         this.userImageURL = userImageURL;
     }
 
-    public Hit withUserImageURL(String userImageURL) {
+    public VideoHit withUserImageURL(String userImageURL) {
         this.userImageURL = userImageURL;
         return this;
     }
@@ -217,7 +216,7 @@ public class Hit {
         this.pageURL = pageURL;
     }
 
-    public Hit withPageURL(String pageURL) {
+    public VideoHit withPageURL(String pageURL) {
         this.pageURL = pageURL;
         return this;
     }
@@ -230,7 +229,7 @@ public class Hit {
         this.type = type;
     }
 
-    public Hit withType(String type) {
+    public VideoHit withType(String type) {
         this.type = type;
         return this;
     }
@@ -243,7 +242,7 @@ public class Hit {
         this.user = user;
     }
 
-    public Hit withUser(String user) {
+    public VideoHit withUser(String user) {
         this.user = user;
         return this;
     }

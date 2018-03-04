@@ -15,7 +15,7 @@
         android:clickable="true"
         android:minHeight="200dp" />
 
-    <com.atabouraya.videoinrecyclerview.ui.CustomTextureVideoView
+    <com.gcoders.wallpaper.hqwallpapersdaily.view.custom.CustomTextureVideoView
         android:id="@+id/video_feed_item_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,6 @@
         android:layout_gravity="center"
         android:clickable="true"
         android:padding="1dp"
-
-        android:src="@mipmap/ic_play_circle_outline_black_48dp"
+        android:src="@drawable/ic_play_circle_outline_black_24dp"
         android:tint="@android:color/holo_red_dark" />
 </FrameLayout>

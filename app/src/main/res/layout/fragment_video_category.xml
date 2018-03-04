@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:hint="Search Wallpapers"
+                    android:hint="Search Videos"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textColorHighlight="@color/black"
@@ -50,13 +50,13 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <TextView
+        <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:text="Wallpaper Categories"
+            android:text="Video Categories"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -64,11 +64,11 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="10dp"
-            android:background="@android:color/black" />
+            android:background="@android:color/black" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_buttons"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp" />

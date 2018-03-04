@@ -1,10 +1,10 @@
 
-package com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.video;
+package com.gcoders.wallpaper.hqwallpapersdaily.model.video;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Medium {
+public class MediumVideo {
 
     @SerializedName("url")
     @Expose
@@ -27,7 +27,7 @@ public class Medium {
         this.url = url;
     }
 
-    public Medium withUrl(String url) {
+    public MediumVideo withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -40,7 +40,7 @@ public class Medium {
         this.width = width;
     }
 
-    public Medium withWidth(Integer width) {
+    public MediumVideo withWidth(Integer width) {
         this.width = width;
         return this;
     }
@@ -53,7 +53,7 @@ public class Medium {
         this.size = size;
     }
 
-    public Medium withSize(Integer size) {
+    public MediumVideo withSize(Integer size) {
         this.size = size;
         return this;
     }
@@ -66,7 +66,7 @@ public class Medium {
         this.height = height;
     }
 
-    public Medium withHeight(Integer height) {
+    public MediumVideo withHeight(Integer height) {
         this.height = height;
         return this;
     }

@@ -1,10 +1,10 @@
 
-package com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.video;
+package com.gcoders.wallpaper.hqwallpapersdaily.model.video;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Large {
+public class LargeVideo {
 
     @SerializedName("url")
     @Expose
@@ -27,7 +27,7 @@ public class Large {
         this.url = url;
     }
 
-    public Large withUrl(String url) {
+    public LargeVideo withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -40,7 +40,7 @@ public class Large {
         this.width = width;
     }
 
-    public Large withWidth(Integer width) {
+    public LargeVideo withWidth(Integer width) {
         this.width = width;
         return this;
     }
@@ -53,7 +53,7 @@ public class Large {
         this.size = size;
     }
 
-    public Large withSize(Integer size) {
+    public LargeVideo withSize(Integer size) {
         this.size = size;
         return this;
     }
@@ -66,7 +66,7 @@ public class Large {
         this.height = height;
     }
 
-    public Large withHeight(Integer height) {
+    public LargeVideo withHeight(Integer height) {
         this.height = height;
         return this;
     }

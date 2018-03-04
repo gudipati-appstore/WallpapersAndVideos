@@ -16,29 +16,29 @@ import java.util.List;
  * Created by kondareddygudipati on 1/21/18.
  */
 
-public class HomePageOptionsAdapter extends RecyclerView.Adapter<HomePageOptionsAdapter.MyViewHolder> {
+public class WallpaperOptionsAdapter extends RecyclerView.Adapter<WallpaperOptionsAdapter.MyViewHolder> {
 
     private List<String> optionsList;
     private Context mContext;
     private ButtonClick buttonClick;
 
-    public HomePageOptionsAdapter(Context mContext, List<String> optionsList, ButtonClick buttonClick) {
+    public WallpaperOptionsAdapter(Context mContext, List<String> optionsList, ButtonClick buttonClick) {
         this.mContext = mContext;
         this.optionsList = optionsList;
         this.buttonClick = buttonClick;
     }
 
     @Override
-    public HomePageOptionsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public WallpaperOptionsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View imageView = inflater.inflate(R.layout.homepage_option_row, parent, false);
+        View imageView = inflater.inflate(R.layout.wallpaper_option_row, parent, false);
 
         return new MyViewHolder(imageView);
     }
 
     @Override
-    public void onBindViewHolder(final HomePageOptionsAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final WallpaperOptionsAdapter.MyViewHolder holder, int position) {
         final String optionContent = optionsList.get(position);
 
         holder.search_category_cntent.setText(optionContent);

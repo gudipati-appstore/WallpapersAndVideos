@@ -1,4 +1,4 @@
-package com.gcoders.wallpaper.hqwallpapersdaily.fragment;
+package com.gcoders.wallpaper.hqwallpapersdaily;
 
 
 import android.support.v4.app.Fragment;

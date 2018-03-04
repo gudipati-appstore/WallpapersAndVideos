@@ -1,5 +1,5 @@
 
-package com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.video;
+package com.gcoders.wallpaper.hqwallpapersdaily.model.video;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
@@ -12,7 +12,7 @@ public class VideoModelObject {
     private Integer totalHits;
     @SerializedName("hits")
     @Expose
-    private List<Hit> hits = null;
+    private List<VideoHit> hits = null;
     @SerializedName("total")
     @Expose
     private Integer total;
@@ -30,15 +30,15 @@ public class VideoModelObject {
         return this;
     }
 
-    public List<Hit> getHits() {
+    public List<VideoHit> getHits() {
         return hits;
     }
 
-    public void setHits(List<Hit> hits) {
+    public void setHits(List<VideoHit> hits) {
         this.hits = hits;
     }
 
-    public VideoModelObject withHits(List<Hit> hits) {
+    public VideoModelObject withHits(List<VideoHit> hits) {
         this.hits = hits;
         return this;
     }

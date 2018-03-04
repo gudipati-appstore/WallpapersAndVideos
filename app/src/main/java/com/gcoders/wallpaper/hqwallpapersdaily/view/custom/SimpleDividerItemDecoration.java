@@ -1,4 +1,4 @@
-package com.atabouraya.videoinrecyclerview.utils;
+package com.gcoders.wallpaper.hqwallpapersdaily.view.custom;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.atabouraya.videoinrecyclerview.R;
+import com.gcoders.wallpaper.hqwallpapersdaily.R;
 
 
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {

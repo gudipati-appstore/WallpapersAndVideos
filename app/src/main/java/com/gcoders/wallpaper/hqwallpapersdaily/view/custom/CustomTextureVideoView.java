@@ -1,4 +1,4 @@
-package com.gcoders.wallpaper.hqwallpapersdaily.fragment;
+package com.gcoders.wallpaper.hqwallpapersdaily.view.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;

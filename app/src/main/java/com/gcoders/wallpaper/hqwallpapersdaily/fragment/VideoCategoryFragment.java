@@ -21,10 +21,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gcoders.wallpaper.hqwallpapersdaily.BaseFragment;
 import com.gcoders.wallpaper.hqwallpapersdaily.R;
-import com.gcoders.wallpaper.hqwallpapersdaily.adapter.HomePageOptionsAdapter;
+import com.gcoders.wallpaper.hqwallpapersdaily.adapter.VideoOptionsAdapter;
+import com.gcoders.wallpaper.hqwallpapersdaily.adapter.WallpaperOptionsAdapter;
 import com.gcoders.wallpaper.hqwallpapersdaily.service.MyServiceManager;
-import com.gcoders.wallpaper.hqwallpapersdaily.view.ImageLoadingActivity;
+import com.gcoders.wallpaper.hqwallpapersdaily.view.VideoLoadingActivity;
+import com.gcoders.wallpaper.hqwallpapersdaily.view.custom.MyProgressDialog;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,9 +40,9 @@ import okhttp3.OkHttpClient;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WallPaperCategoryFragment extends BaseFragment {
+public class VideoCategoryFragment extends BaseFragment {
 
-    public static String TAG = WallPaperCategoryFragment.class.getName();
+    public static String TAG = VideoCategoryFragment.class.getName();
 
     private String deviceParam;
     private Button click_me;
@@ -48,14 +51,15 @@ public class WallPaperCategoryFragment extends BaseFragment {
     private String[] searchCloudStr;
     private List<String> categoryList;
     private RecyclerView recycler_view_images;
+    private String category = "VIDEO";
 
 
-    public WallPaperCategoryFragment() {
+    public VideoCategoryFragment() {
         //Empty Constructor for Fragment
     }
 
-    public static WallPaperCategoryFragment newInstance(String deviceParam) {
-        WallPaperCategoryFragment detailedFragment = new WallPaperCategoryFragment();
+    public static VideoCategoryFragment newInstance(String deviceParam) {
+        VideoCategoryFragment detailedFragment = new VideoCategoryFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("ARG1", deviceParam);
@@ -82,7 +86,7 @@ public class WallPaperCategoryFragment extends BaseFragment {
         if (container == null) {
             return null;
         }
-        View rootView = inflater.inflate(R.layout.content_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_video_category, container, false);
         bindViews(rootView, savedInstanceState);
         bindEvents();
         return rootView;
@@ -109,10 +113,10 @@ public class WallPaperCategoryFragment extends BaseFragment {
 
     private void bindEvents() {
 
-        HomePageOptionsAdapter adapter = new HomePageOptionsAdapter(getContext(), getButtonObjects(), new HomePageOptionsAdapter.ButtonClick() {
+        VideoOptionsAdapter adapter = new VideoOptionsAdapter(getContext(), getButtonObjects(), new VideoOptionsAdapter.ButtonClick() {
             @Override
             public void onButtonClick(String text) {
-                callService(text, getOkHttpClientObject(),
+                callService(text, category, getOkHttpClientObject(),
                         getMyServiceManagerObject());
             }
         });
@@ -150,7 +154,7 @@ public class WallPaperCategoryFragment extends BaseFragment {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     //do here your stuff f
                     if (click_me.isEnabled()) {
-                        callService(input_search_wallpapers.getText().toString().trim(), getOkHttpClientObject(),
+                        callService(input_search_wallpapers.getText().toString().trim(), category, getOkHttpClientObject(),
                                 getMyServiceManagerObject());
 
                     }
@@ -165,7 +169,7 @@ public class WallPaperCategoryFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (StringUtils.isNotBlank(input_search_wallpapers.getText().toString())) {
-                    callService(input_search_wallpapers.getText().toString().trim(), getOkHttpClientObject(),
+                    callService(input_search_wallpapers.getText().toString().trim(), category, getOkHttpClientObject(),
                             getMyServiceManagerObject());
                 }
             }
@@ -180,30 +184,41 @@ public class WallPaperCategoryFragment extends BaseFragment {
         return categoryList;
     }
 
-    private void callService(String searchString, OkHttpClient okHttpClient, MyServiceManager myServiceManager) {
+    private void callService(String searchString, String category, OkHttpClient okHttpClient, MyServiceManager myServiceManager) {
 
-        myServiceManager.callService(searchString, okHttpClient, new MyServiceManager.ServiceManagerCallBack() {
+        myServiceManager.callService(searchString, category, okHttpClient, new MyServiceManager.ServiceManagerCallBack() {
             @Override
             public void showLoading(final boolean flag) {
-                if (flag) {
-                    progressDialog.show();
-                } else {
-                    progressDialog.dismiss();
-                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (flag) {
+                            progressDialog.show();
+                        } else {
+                            progressDialog.dismiss();
+                        }
+                    }
+                });
             }
 
             @Override
             public void onSuccess() {
-                Intent intent = new Intent(getContext(), ImageLoadingActivity.class);
+                Intent intent = new Intent(getContext(), VideoLoadingActivity.class);
                 startActivity(intent);
             }
 
             @Override
             public void showErrorMessage(final String errorMessage) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

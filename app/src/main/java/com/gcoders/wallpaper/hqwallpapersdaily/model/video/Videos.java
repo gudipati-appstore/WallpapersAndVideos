@@ -1,5 +1,5 @@
 
-package com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.video;
+package com.gcoders.wallpaper.hqwallpapersdaily.model.video;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,65 +8,65 @@ public class Videos {
 
     @SerializedName("large")
     @Expose
-    private Large large;
+    private LargeVideo large;
     @SerializedName("small")
     @Expose
-    private Small small;
+    private SmallVideo small;
     @SerializedName("medium")
     @Expose
-    private Medium medium;
+    private MediumVideo medium;
     @SerializedName("tiny")
     @Expose
-    private Tiny tiny;
+    private TinyVideo tiny;
 
-    public Large getLarge() {
+    public LargeVideo getLarge() {
         return large;
     }
 
-    public void setLarge(Large large) {
+    public void setLarge(LargeVideo large) {
         this.large = large;
     }
 
-    public Videos withLarge(Large large) {
+    public Videos withLarge(LargeVideo large) {
         this.large = large;
         return this;
     }
 
-    public Small getSmall() {
+    public SmallVideo getSmall() {
         return small;
     }
 
-    public void setSmall(Small small) {
+    public void setSmall(SmallVideo small) {
         this.small = small;
     }
 
-    public Videos withSmall(Small small) {
+    public Videos withSmall(SmallVideo small) {
         this.small = small;
         return this;
     }
 
-    public Medium getMedium() {
+    public MediumVideo getMedium() {
         return medium;
     }
 
-    public void setMedium(Medium medium) {
+    public void setMedium(MediumVideo medium) {
         this.medium = medium;
     }
 
-    public Videos withMedium(Medium medium) {
+    public Videos withMedium(MediumVideo medium) {
         this.medium = medium;
         return this;
     }
 
-    public Tiny getTiny() {
+    public TinyVideo getTiny() {
         return tiny;
     }
 
-    public void setTiny(Tiny tiny) {
+    public void setTiny(TinyVideo tiny) {
         this.tiny = tiny;
     }
 
-    public Videos withTiny(Tiny tiny) {
+    public Videos withTiny(TinyVideo tiny) {
         this.tiny = tiny;
         return this;
     }

@@ -1,10 +1,10 @@
 
-package com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.video;
+package com.gcoders.wallpaper.hqwallpapersdaily.model.video;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Small {
+public class SmallVideo {
 
     @SerializedName("url")
     @Expose
@@ -27,7 +27,7 @@ public class Small {
         this.url = url;
     }
 
-    public Small withUrl(String url) {
+    public SmallVideo withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -40,7 +40,7 @@ public class Small {
         this.width = width;
     }
 
-    public Small withWidth(Integer width) {
+    public SmallVideo withWidth(Integer width) {
         this.width = width;
         return this;
     }
@@ -53,7 +53,7 @@ public class Small {
         this.size = size;
     }
 
-    public Small withSize(Integer size) {
+    public SmallVideo withSize(Integer size) {
         this.size = size;
         return this;
     }
@@ -66,7 +66,7 @@ public class Small {
         this.height = height;
     }
 
-    public Small withHeight(Integer height) {
+    public SmallVideo withHeight(Integer height) {
         this.height = height;
         return this;
     }

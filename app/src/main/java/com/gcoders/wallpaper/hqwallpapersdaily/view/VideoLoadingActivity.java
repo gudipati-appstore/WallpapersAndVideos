@@ -1,6 +1,5 @@
 package com.gcoders.wallpaper.hqwallpapersdaily.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -9,23 +8,24 @@ import android.widget.ImageView;
 
 import com.gcoders.wallpaper.hqwallpapersdaily.BaseActivity;
 import com.gcoders.wallpaper.hqwallpapersdaily.R;
-import com.gcoders.wallpaper.hqwallpapersdaily.adapter.WallPaperAdapter;
-import com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.ImageHit;
-import com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.ImageModelObject;
+import com.gcoders.wallpaper.hqwallpapersdaily.adapter.VideoAdapter;
+import com.gcoders.wallpaper.hqwallpapersdaily.model.video.VideoHit;
+import com.gcoders.wallpaper.hqwallpapersdaily.model.video.VideoModelObject;
 import com.gcoders.wallpaper.hqwallpapersdaily.storage.DataStore;
-import com.gcoders.wallpaper.hqwallpapersdaily.utils.HDUtils;
+import com.gcoders.wallpaper.hqwallpapersdaily.view.custom.SimpleDividerItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ImageLoadingActivity extends BaseActivity {
+public class VideoLoadingActivity extends BaseActivity {
 
     private ImageView imageView;
-    private RecyclerView recycler_view_images;
+    private RecyclerView recycler_view_videos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_layout);
+        setContentView(R.layout.activity_video_loading_layout);
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,36 +42,53 @@ public class ImageLoadingActivity extends BaseActivity {
     }
 
     private void bindViewAndEvents() {
-        recycler_view_images = findViewById(R.id.recycler_view_images);
+        recycler_view_videos = findViewById(R.id.recycler_view_videos);
 
-        WallPaperAdapter adapter = new WallPaperAdapter(this, getImageObjects(), new WallPaperAdapter.ImageClick() {
+        final VideoAdapter adapter = new VideoAdapter(this, getVideoObjects(), getPictureObjects(), getPicassoObject());
+
+        recycler_view_videos.setLayoutManager(new StaggeredGridLayoutManager(1, RecyclerView.VERTICAL));
+        recycler_view_videos.addItemDecoration(new SimpleDividerItemDecoration(this));
+        recycler_view_videos.setAdapter(adapter);
+        recycler_view_videos.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onImageClick(ImageHit imageObject) {
-                navigateToImageDetailActivity(imageObject);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
-        }, getPicassoObject());
 
-        recycler_view_images.setLayoutManager(new StaggeredGridLayoutManager(1, RecyclerView.VERTICAL));
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING || newState == RecyclerView.SCROLL_STATE_SETTLING || newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    adapter.onScrolled(recyclerView);
+                }
+            }
 
-
-        recycler_view_images.setAdapter(adapter);
+        });
 
         loadBackdrop();
-
     }
 
-    private List<ImageHit> getImageObjects() {
-        ImageModelObject imageInfo = (ImageModelObject) DataStore.getInstance().getInfo("IMAGE_LIST_FROM_SERVICE");
-        return HDUtils.removeDuplicates(imageInfo.getHits());
+    private List<String> getVideoObjects() {
+        List<String> videoURLs = new ArrayList<>();
+        VideoModelObject videoModelObject = (VideoModelObject) DataStore.getInstance().getInfo("VIDEO_LIST_FROM_SERVICE");
+        List<VideoHit> videoHitsList = videoModelObject.getHits();
+        for(VideoHit videoHit: videoHitsList) {
+            if( null != videoHit.getVideos().getMedium() ) {
+                videoURLs.add(videoHit.getVideos().getMedium().getUrl());
+            }
+        }
+        return videoURLs;
     }
 
-    private void navigateToImageDetailActivity(ImageHit imageObject) {
-        Intent intent = new Intent(this, ImageDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("imageObject", imageObject);
-        intent.putExtras(bundle);
-        startActivity(intent);
-
+    private List<String> getPictureObjects(){
+        List<String> pictureObjects = new ArrayList<>();
+        VideoModelObject videoModelObject = (VideoModelObject) DataStore.getInstance().getInfo("VIDEO_LIST_FROM_SERVICE");
+        List<VideoHit> videoHitsList = videoModelObject.getHits();
+        for(VideoHit videoHit: videoHitsList) {
+            if( null != videoHit.getPictureId() ) {
+                pictureObjects.add(videoHit.getPictureId());
+            }
+        }
+        return pictureObjects;
     }
 
     private void loadBackdrop() {

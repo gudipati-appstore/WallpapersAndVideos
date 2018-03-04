@@ -3,7 +3,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/cardview"
     android:layout_width="100dp"
-    android:layout_height="100dp">
+    android:layout_height="90dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,10 +11,10 @@
 
         <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/action_homepage_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:background="@color/black"
+            android:background="@color/colorPrimaryDark"
             android:contentDescription="@string/hee"
             android:fitsSystemWindows="true"
             android:focusable="true"

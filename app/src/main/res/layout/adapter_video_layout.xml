@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/action_image_for_noew"
+    <VideoView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/action_video_for_noew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
