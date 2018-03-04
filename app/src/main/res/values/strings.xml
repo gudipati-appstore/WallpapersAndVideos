@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">FullHD WallPapers</string>
+    <string name="title_activity_main">FullHD WallPapers</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_aboutapp">About App</string>
+    <string name="hee">hee</string>
+    <string name="title_activity_info">InfoActivity</string>
+
+    <string name="about_app">"
+        * This App is for free and provides countless HD Wallpapers and Backgrounds to make your screen awesome and boring free.
+
+        * Very Simple Design, UI with faster access and greater performance.
+
+        * Frequent and important updates keep your app experience amazing and stunning with the new HD Wallpapers and HD Backgrounds.
+
+        * All the images provided here are owned by pixabay. I'm not modifying any of the images
+
+        * This app is designed and developed to enhance my android knowledge and experience
+
+        * Please contact me if you need source code or explanation of how this app is implemented<!-- for very less price-->
+        ."</string>
+
+    <string-array name="wallpaper_categories">
+        <item>Backgrounds</item>
+        <item>Nature</item>
+        <item>Fashion</item>
+        <item>Science</item>
+        <item>Education</item>
+        <item>People</item>
+        <item>Feelings</item>
+        <item>Religion</item>
+        <item>Health</item>
+        <item>Places</item>
+        <item>Animals</item>
+        <item>Industry</item>
+        <item>Food</item>
+        <item>Computer</item>
+        <item>Sports</item>
+        <item>Transportation</item>
+        <item>Travel</item>
+        <item>Buildings</item>
+        <item>Business</item>
+        <item>Music</item>
+    </string-array>
+
+    <string-array name="video_categories">
+        <item>Backgrounds</item>
+        <item>Nature</item>
+        <item>Fashion</item>
+        <item>Science</item>
+        <item>Education</item>
+        <item>People</item>
+        <item>Feelings</item>
+        <item>Religion</item>
+        <item>Health</item>
+        <item>Places</item>
+        <item>Animals</item>
+        <item>Industry</item>
+        <item>Food</item>
+        <item>Computer</item>
+        <item>Sports</item>
+        <item>Transportation</item>
+        <item>Travel</item>
+        <item>Buildings</item>
+        <item>Business</item>
+        <item>Music</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
