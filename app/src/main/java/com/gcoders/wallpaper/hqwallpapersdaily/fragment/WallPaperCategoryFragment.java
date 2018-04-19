@@ -37,8 +37,6 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 
-import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -214,7 +212,13 @@ public class WallPaperCategoryFragment extends BaseFragment {
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
-                Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
