@@ -2,7 +2,6 @@ package com.gcoders.wallpaper.hqwallpapersdaily;
 
 import android.app.Application;
 
-import com.gcoders.wallpaper.hqwallpapersdaily.service.MyServiceManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -23,7 +22,6 @@ public class WallpaperApplication extends Application {
 
     private static OkHttpClient okHttpClient;
     private Picasso picassoInstance;
-    private static MyServiceManager myServiceManagerInstance;
 
 
     @Override
@@ -35,7 +33,6 @@ public class WallpaperApplication extends Application {
     private void init() {
         getOkhttpInstance();
         getPicassoInstance();
-        getServiceManageInstance();
     }
 
     public OkHttpClient getOkhttpInstance() {
@@ -54,14 +51,6 @@ public class WallpaperApplication extends Application {
         }
         return picassoInstance;
     }
-
-    public MyServiceManager getServiceManageInstance(){
-        if( myServiceManagerInstance == null ){
-            myServiceManagerInstance = initServiceManagerInstance();
-        }
-        return myServiceManagerInstance;
-    }
-
 
     private OkHttpClient initOkHttpClient() {
         return new OkHttpClient.Builder()
@@ -92,10 +81,6 @@ public class WallpaperApplication extends Application {
     private Picasso initPicassoInstance() {
         return new Picasso.Builder(this)
                 .build();
-    }
-
-    private MyServiceManager initServiceManagerInstance() {
-        return MyServiceManager.getInstance();
     }
 
 }

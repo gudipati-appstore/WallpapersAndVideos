@@ -24,7 +24,10 @@ import android.widget.Toast;
 import com.gcoders.wallpaper.hqwallpapersdaily.BaseFragment;
 import com.gcoders.wallpaper.hqwallpapersdaily.R;
 import com.gcoders.wallpaper.hqwallpapersdaily.adapter.WallpaperOptionsAdapter;
-import com.gcoders.wallpaper.hqwallpapersdaily.service.MyServiceManager;
+import com.gcoders.wallpaper.hqwallpapersdaily.constants.ServiceConstants;
+import com.gcoders.wallpaper.hqwallpapersdaily.model.wallpaper.ImageModelObject;
+import com.gcoders.wallpaper.hqwallpapersdaily.service.HQResourceSystemImpl;
+import com.gcoders.wallpaper.hqwallpapersdaily.storage.DataStore;
 import com.gcoders.wallpaper.hqwallpapersdaily.utils.HDUtils;
 import com.gcoders.wallpaper.hqwallpapersdaily.view.ImageLoadingActivity;
 import com.gcoders.wallpaper.hqwallpapersdaily.view.custom.MyProgressDialog;
@@ -33,9 +36,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +58,7 @@ public class WallPaperCategoryFragment extends BaseFragment {
     private String[] searchCloudStr;
     private List<String> categoryList;
     private RecyclerView recycler_view_images;
-    private String category = "IMAGE";
+
 
 
     public WallPaperCategoryFragment() {
@@ -87,13 +94,12 @@ public class WallPaperCategoryFragment extends BaseFragment {
             return null;
         }
         View rootView = inflater.inflate(R.layout.fragment_wallpaper_category, container, false);
-        bindViews(rootView, savedInstanceState);
+        bindViews(rootView);
         bindEvents();
         return rootView;
     }
 
-    private void bindViews(View rootView, Bundle savedInstanceState) {
-        // TextView about_app_text = findViewById(R.id.about_app_text);
+    private void bindViews(View rootView) {
         click_me = rootView.findViewById(R.id.click_me);
         recycler_view_images = rootView.findViewById(R.id.recycler_view_buttons);
         input_search_wallpapers = rootView.findViewById(R.id.input_search_wallpapers);
@@ -101,14 +107,6 @@ public class WallPaperCategoryFragment extends BaseFragment {
 
         progressDialog = new MyProgressDialog(getContext());
         progressDialog.setCancelable(false);
-
-
-        /*about_app_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), InfoActivity.class));
-            }
-        });*/
     }
 
     private void bindEvents() {
@@ -116,8 +114,7 @@ public class WallPaperCategoryFragment extends BaseFragment {
         WallpaperOptionsAdapter adapter = new WallpaperOptionsAdapter(getContext(), getButtonObjects(), new WallpaperOptionsAdapter.ButtonClick() {
             @Override
             public void onButtonClick(String text) {
-                callService(text, category, getOkHttpClientObject(),
-                        getMyServiceManagerObject());
+                callService(text);
             }
         });
 
@@ -159,8 +156,7 @@ public class WallPaperCategoryFragment extends BaseFragment {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     //do here your stuff f
                     if (click_me.isEnabled()) {
-                        callService(input_search_wallpapers.getText().toString().trim(), category, getOkHttpClientObject(),
-                                getMyServiceManagerObject());
+                        callService(input_search_wallpapers.getText().toString().trim());
 
                     }
                     return true;
@@ -174,8 +170,7 @@ public class WallPaperCategoryFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (StringUtils.isNotBlank(input_search_wallpapers.getText().toString())) {
-                    callService(input_search_wallpapers.getText().toString().trim(), category, getOkHttpClientObject(),
-                            getMyServiceManagerObject());
+                    callService(input_search_wallpapers.getText().toString().trim());
                 }
             }
         });
@@ -189,39 +184,59 @@ public class WallPaperCategoryFragment extends BaseFragment {
         return categoryList;
     }
 
-    private void callService(String searchString, String category, OkHttpClient okHttpClient, MyServiceManager myServiceManager) {
+    private void callService(String searchString) {
+        progressDialog.show();
 
-        myServiceManager.callService(searchString, category, okHttpClient, new MyServiceManager.ServiceManagerCallBack() {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("q", searchString);
+        queryParamMap.put("orientation", "vertical");
+        queryParamMap.put("per_page", "50");
+        queryParamMap.put("safesearch","true");
+        queryParamMap.put("image_type","photo");
+        queryParamMap.put("key", ServiceConstants.API_KEY);
+        getHqWallPaperService().getAPI().getWallPapers(queryParamMap).enqueue(new Callback<ImageModelObject>() {
             @Override
-            public void showLoading(final boolean flag) {
-                if (flag) {
-                    progressDialog.show();
+            public void onResponse(Call<ImageModelObject> call, Response<ImageModelObject> response) {
+                progressDialog.dismiss();
+                ImageModelObject respBody;
+                if (response.body() != null && response.isSuccessful()) {
+                    respBody = response.body();
+                    if (null != respBody && respBody.getHits().size() > 0) {
+                        DataStore.getInstance().setInfo("IMAGE_LIST_FROM_SERVICE", respBody);
+                        Intent intent = new Intent(getContext(), ImageLoadingActivity.class);
+                        startActivity(intent);
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "unable to complete request", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
                 } else {
-                    progressDialog.dismiss();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), "unable to complete request", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onSuccess() {
-                Intent intent = new Intent(getContext(), ImageLoadingActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void showErrorMessage(final String errorMessage) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-
+            public void onFailure(Call<ImageModelObject> call, Throwable t) {
+                progressDialog.dismiss();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "unable to complete request", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
+
 
     @Override
     public void onAttach(Context context) {

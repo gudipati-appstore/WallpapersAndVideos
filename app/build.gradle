@@ -30,11 +30,8 @@ dependencies {
     compile 'com.sprylab.android.texturevideoview:texturevideoview:1.0.2'
 
     implementation 'com.android.support:support-v4:26.1.0'
-    compile 'info.android15.nucleus5:nucleus:7.0.0'
-    compile 'info.android15.nucleus5:nucleus-support-v4:7.0.0'
-    compile 'info.android15.nucleus5:nucleus-support-v7:7.0.0'
 
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
@@ -42,12 +39,11 @@ dependencies {
 
     compile 'org.apache.commons:commons-lang3:3.6'
 
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+
 
 
     compile 'com.google.code.gson:gson:2.8.2'
 
-    testImplementation 'junit:junit:4.12'
-
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }

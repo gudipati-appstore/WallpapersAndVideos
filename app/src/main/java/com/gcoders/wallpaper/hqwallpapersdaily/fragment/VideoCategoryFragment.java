@@ -24,8 +24,10 @@ import android.widget.Toast;
 import com.gcoders.wallpaper.hqwallpapersdaily.BaseFragment;
 import com.gcoders.wallpaper.hqwallpapersdaily.R;
 import com.gcoders.wallpaper.hqwallpapersdaily.adapter.VideoOptionsAdapter;
-import com.gcoders.wallpaper.hqwallpapersdaily.adapter.WallpaperOptionsAdapter;
-import com.gcoders.wallpaper.hqwallpapersdaily.service.MyServiceManager;
+import com.gcoders.wallpaper.hqwallpapersdaily.constants.ServiceConstants;
+import com.gcoders.wallpaper.hqwallpapersdaily.model.video.VideoModelObject;
+import com.gcoders.wallpaper.hqwallpapersdaily.service.HQResourceSystemImpl;
+import com.gcoders.wallpaper.hqwallpapersdaily.storage.DataStore;
 import com.gcoders.wallpaper.hqwallpapersdaily.view.VideoLoadingActivity;
 import com.gcoders.wallpaper.hqwallpapersdaily.view.custom.MyProgressDialog;
 
@@ -33,9 +35,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +57,6 @@ public class VideoCategoryFragment extends BaseFragment {
     private String[] searchCloudStr;
     private List<String> categoryList;
     private RecyclerView recycler_view_images;
-    private String category = "VIDEO";
 
 
     public VideoCategoryFragment() {
@@ -116,8 +121,7 @@ public class VideoCategoryFragment extends BaseFragment {
         VideoOptionsAdapter adapter = new VideoOptionsAdapter(getContext(), getButtonObjects(), new VideoOptionsAdapter.ButtonClick() {
             @Override
             public void onButtonClick(String text) {
-                callService(text, category, getOkHttpClientObject(),
-                        getMyServiceManagerObject());
+                callService(text);
             }
         });
 
@@ -154,8 +158,7 @@ public class VideoCategoryFragment extends BaseFragment {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     //do here your stuff f
                     if (click_me.isEnabled()) {
-                        callService(input_search_wallpapers.getText().toString().trim(), category, getOkHttpClientObject(),
-                                getMyServiceManagerObject());
+                        callService(input_search_wallpapers.getText().toString().trim());
 
                     }
                     return true;
@@ -169,8 +172,7 @@ public class VideoCategoryFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (StringUtils.isNotBlank(input_search_wallpapers.getText().toString())) {
-                    callService(input_search_wallpapers.getText().toString().trim(), category, getOkHttpClientObject(),
-                            getMyServiceManagerObject());
+                    callService(input_search_wallpapers.getText().toString().trim());
                 }
             }
         });
@@ -184,44 +186,60 @@ public class VideoCategoryFragment extends BaseFragment {
         return categoryList;
     }
 
-    private void callService(String searchString, String category, OkHttpClient okHttpClient, MyServiceManager myServiceManager) {
+    private void callService(String searchString) {
 
-        myServiceManager.callService(searchString, category, okHttpClient, new MyServiceManager.ServiceManagerCallBack() {
+        progressDialog.show();
+
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("q", searchString);
+        queryParamMap.put("per_page", "50");
+        queryParamMap.put("safesearch","true");
+        queryParamMap.put("video_type","all");
+        queryParamMap.put("key", ServiceConstants.API_KEY);
+        getHqWallPaperService().getAPI().getVideos(queryParamMap).enqueue(new Callback<VideoModelObject>() {
             @Override
-            public void showLoading(final boolean flag) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (flag) {
-                            progressDialog.show();
-                        } else {
-                            progressDialog.dismiss();
-                        }
+            public void onResponse(Call<VideoModelObject> call, Response<VideoModelObject> response) {
+                progressDialog.dismiss();
+                VideoModelObject respBody;
+                if (response.body() != null && response.isSuccessful()) {
+                    respBody = response.body();
+                    if (null != respBody && respBody.getHits().size() > 0) {
+                        DataStore.getInstance().setInfo("VIDEO_LIST_FROM_SERVICE", respBody);
+                        Intent intent = new Intent(getContext(), VideoLoadingActivity.class);
+                        startActivity(intent);
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "unable to complete request", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                });
+
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), "unable to complete request", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
 
             @Override
-            public void onSuccess() {
-                Intent intent = new Intent(getContext(), VideoLoadingActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void showErrorMessage(final String errorMessage) {
-
+            public void onFailure(Call<VideoModelObject> call, Throwable t) {
+                progressDialog.dismiss();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
-                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "unable to complete request", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
+
+
 
     @Override
     public void onAttach(Context context) {
