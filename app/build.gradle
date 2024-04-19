@@ -4,11 +4,11 @@ android {
     compileSdkVersion 34
     defaultConfig {
         applicationId "com.gcoders.wallpaper.hqwallpapersdaily"
-        minSdkVersion 21
+        minSdkVersion 28
         targetSdkVersion 34
         multiDexEnabled true
-        versionCode 3
-        versionName "3.0"
+        versionCode 5
+        versionName "Wallpapers videos"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
